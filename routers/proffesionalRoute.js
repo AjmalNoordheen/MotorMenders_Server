@@ -27,7 +27,7 @@ prorouter.post('/changeAvailability',auth.verifyProToken,proController.changeAva
 prorouter.patch('/updateBookingStatus',auth.verifyProToken,proController.updateBookingStatus) 
 prorouter.get('/walletdetails',bookingController.walletdetails)
 prorouter.post('/withDrawelRequest',bookingController.withDrawelRequest)
-prorouter.post('/getGallery',auth.verifyProToken,proController.getGallery)
+prorouter.post('/getGallery',proController.getGallery)
 prorouter.post('/proGalleryAdd',upload.single('file'),auth.verifyProToken,proController.proGalleryAdd)
 prorouter.post('/removeGallery',auth.verifyProToken,proController.removeGallery)
 
