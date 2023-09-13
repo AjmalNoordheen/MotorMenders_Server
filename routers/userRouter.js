@@ -31,7 +31,7 @@ router.get('/fetchMessages',chatController.fetchMessages)
 router.get('/walletdetails',bookingController.walletdetails)
 router.post('/withDrawelRequest',bookingController.withDrawelRequest)
 router.post('/addReview',auth.verifyToken,reviewController.addReview)
-router.get('/getReview',check.isBlocked,auth.verifyToken,reviewController.getReview)
+router.get('/getReview',reviewController.getReview)
 
 
 module.exports=router
