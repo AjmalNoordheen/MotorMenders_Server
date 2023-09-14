@@ -10,14 +10,31 @@ const socketIo = require("socket.io");
 const chatController = require('./controller/chatController')
 
 const cookieParser = require("cookie-parser");
+// const corsOptions = {
+// 	origin: ["http://localhost:5173","https://www.motormenders.online","https://motormenders.online"], 
+// 	methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
+// 	allowedHeaders: ["Content-Type", "Authorization"],
+// 	optionsSuccessStatus: 204,
+//   };
+  
+// app.use(cors(corsOptions));
+
+// Enable CORS with specific options
 const corsOptions = {
-	origin: ["http://localhost:5173","https://www.motormenders.online","https://motormenders.online"], 
+	origin: [
+	  "http://localhost:5173",
+	  "https://www.motormenders.online",
+	  "https://motormenders.online",
+	  "https://motormenders-client-9hx8jgk0b-ajmalnoordheen.vercel.app", // Add your Vercel app origin here
+	],
 	methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
 	allowedHeaders: ["Content-Type", "Authorization"],
 	optionsSuccessStatus: 204,
   };
   
-app.use(cors(corsOptions));
+  // Use the cors middleware with the specified options
+  app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(cookieParser());
 
