@@ -251,9 +251,9 @@ const checkMobile = async (req,res)=>{
           const data={
               token
           }
-          res.status(200).json({data})
+          res.status(200).json({data,message:'success'})
       }else{
-          res.status(400).json({errMsg:"User not found"})
+        res.status(404).json({ errMsg: "User not found" });
       }
   } catch (error) {
       res.status(500).json({ errMsg: "Server Error"})
