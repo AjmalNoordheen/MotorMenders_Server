@@ -89,7 +89,6 @@ const generateProToken = (data) => {
       });
     } catch (error) {
       console.log(error);
-      console.log('kokokokokokokokokokokokokokokokokokokokokokokokok--------------------------------------------------------------');
       return res
         .json({status:false, message: 'Authentication failed: invalid token.' });
     }

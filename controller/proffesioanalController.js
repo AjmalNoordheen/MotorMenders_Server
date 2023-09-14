@@ -72,6 +72,13 @@ const ProffesionalSignup = async (req, res) => {
 
 const proffesionalLogin = async (req, res) => {
   try {
+    let userSignUp = {
+      Status: false,
+      message: null,
+      token: null,
+      name: null,
+      email: null
+    };
     const { email, password } = req.body;
 
     const user = await proSchema.findOne({ email: email });
@@ -88,14 +95,14 @@ const proffesionalLogin = async (req, res) => {
       return res.status(403).json({ status: false, message: "Email is not verified" });
     }
 
-    const token = authToken.generateProToken(user);
-    const userSignUp = {
-      Status: true,
-      message: "You are logged in",
-      token: token,
-      name: user.name,
-      email:user.email
-    };
+    const token = await authToken.generateProToken(user);
+    
+    userSignUp.Status=true,
+    userSignUp.message= "You are logged in",
+    userSignUp.token=token,
+    userSignUp.name=user.name,
+    userSignUp.email=user.email
+    
     res.status(200).json({ userSignUp,user });
   } catch (error) {
     console.error(error);
