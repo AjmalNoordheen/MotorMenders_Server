@@ -36,8 +36,8 @@ const server = app.listen(process.env.PORT, () => {
 const io = socketIo(server, {
 	cors: {
 		origin: "*",
-		Credential: true,
-	},
+		credentials: true, // Corrected property name
+	  },
 });
 
 io.of("/chat").on("connection", (socket) => {
