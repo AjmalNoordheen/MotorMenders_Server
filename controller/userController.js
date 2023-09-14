@@ -245,13 +245,13 @@ const googleMailDetails = async(req,res)=>{
 const checkMobile = async (req,res)=>{
   try {
       const {newPhone} = req.body
-      const user = await userSchema.findOne({phone:newPhone})
+      const user = await userSchema.findOne({phone: newPhone})
       if(user){
           const token = authToken.generateToken(user)
           const data={
               token
           }
-          res.status(200).json({data,message:'success'})
+          res.status(200).json({data})
       }else{
         res.status(404).json({ errMsg: "User not found" });
       }
