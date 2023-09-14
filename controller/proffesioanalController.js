@@ -150,7 +150,7 @@ const otpCheckMobile = async (req, res) => {
     const { newPhone } = req.body;
     const user = await proSchema.findOne({ phone: newPhone });
     if (user) {
-      const token = authToken.generateToken(user);
+      const token = authToken.generateProToken(user);
       const data = {
         token,
       };

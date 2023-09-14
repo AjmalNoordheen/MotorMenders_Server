@@ -244,8 +244,8 @@ const googleMailDetails = async(req,res)=>{
 // =============== checkMobile =============
 const checkMobile = async (req,res)=>{
   try {
-      const {phone} = req.body
-      const user = await userSchema.findOne({phone:phone})
+      const {newPhone} = req.body
+      const user = await userSchema.findOne({phone:newPhone})
       if(user){
           const token = authToken.generateToken(user)
           const data={
