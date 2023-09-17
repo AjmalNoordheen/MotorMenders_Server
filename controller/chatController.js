@@ -115,13 +115,18 @@ const listChat = async(req,res)=>{
                     })
         
                 }
-
-            }
-            const responseData = await chatSchema.find({user:id}).populate('professional')
+                const responseData = await chatSchema.find({user:id}).populate('professional')
                 list = responseData.filter( data=>(data.messages.length>0 || data.professional._id == proId ))
 
                 console.log(list);
            
+
+            }else{
+                const responseData = await chatSchema.find({user:id}).populate('professional')
+                list = responseData.filter( data=>(data.messages.length>0 ))
+
+            }
+          
         }
         if(list){
             res.status(200).json({list})

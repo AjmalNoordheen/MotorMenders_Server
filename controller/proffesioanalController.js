@@ -88,11 +88,11 @@ const proffesionalLogin = async (req, res) => {
 
     const passwordsMatch = await bcrypt.compare(password, user.password);
     if (!passwordsMatch) {
-      return res.status(401).json({ status: false, message: "Incorrect password" });
+      return res.json({ status: false, message: "Incorrect password" });
     }
 
     if (!user.isVerified) {
-      return res.status(403).json({ status: false, message: "Email is not verified" });
+      return res.json({ status: false, message: "Email is not verified" });
     }
 
     const token = await authToken.generateProToken(user);

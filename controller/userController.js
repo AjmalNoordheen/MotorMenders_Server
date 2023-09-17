@@ -12,43 +12,36 @@ const fs = require('fs')
 
 const userSignup = async (req, res) => {
   try {
-    let { name, email, mobile, password, repassword ,location } = req.body;
-    if (password != repassword) {
-      res.json({ status: false, message: "password dosent matched" });
-    } else {
+    let { name, email, mobile, password,location } = req.body;
+    
       const userDetails = await userSchema.findOne({email: email });
       const ExistPhone  = await userSchema.findOne({phone:mobile})
-      if (!userDetails) {
 
-        if(ExistPhone){
-          return res.json({status:false,message:'phone number already exists'})
-        }
-        password = await bcrypt.hash(password, 10);
-       const userDEtails =await userSchema.create({
-          name,
-          email,
-          password,
+      if(ExistPhone){
+        return res.json({status:false,message:'phone number already exists'})
+      }
+      if (!userDetails) {
+       
+      const  password = await bcrypt.hash(password, 10);
+       const userDEtails = new userSchema({
+          name:name,
+          email:email,
+          password:password,
           phone: mobile,
           location:location,
           isVerified:true
         });
+        await userDEtails.save();
 
-        // const verifyEmail = await sendVerifyMail(userDEtails.name,userDEtails.email,userDEtails._id)
-        // if(verifyEmail.result){
-        //   res.json({ status: true, message: 'Registration Success Please Verify Your Mail' });
-        //  }else{
-        //   await userSchema.deleteOne({email:userDEtails.email})
-        //   res.json({ status: false, message: 'Email Not Send' });
-        //  }
-        if(userDEtails){
-          res.json({status:true})
-        }else{
-          await userSchema.deleteOne({email:userDEtails.email})
-          res.json({ status: false});
-        }
+        res.json({status:true})
+        // if(userDEtails){
+        // }else{
+        //   await userSchema.delete({email:userDEtails.email})
+        //   res.json({ status: false});
+        // }
       } else {
        
-         if(userDetails.isgoogleVerified==true){
+         if(userDetails.isgoogleVerified == true){  
           password = await bcrypt.hash(password, 10);
           const DBdetails =await userSchema.updateOne({email:userDetails.email},{$set:{
             name       :name,
@@ -64,8 +57,9 @@ const userSignup = async (req, res) => {
         return res.json({ status: false, message: "User already exists" });
       }
       }
-    }
+    
   } catch (error) {
+    res.json(error)
     console.log(error);
   }
 };
@@ -84,8 +78,12 @@ const userLogin = async (req, res) => {
 
   const { email, password } = req.body;
   try {
-    const user = await userSchema.findOne({ email: email });
-
+    console.log(email,password)
+    const user = await userSchema.findOne({email: email });
+    if(!user.email){
+      console.log('kokko');
+      return res.json({ status: false, message: 'Email not Registered' });
+    }
     const passwordsMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordsMatch) {
@@ -94,7 +92,6 @@ const userLogin = async (req, res) => {
 
     if (user.isVerified === true) {
       const token = authToken.generateToken(user);
-      console.log('okokokokokokokokokokok');
       userSignUp.Status = true;
       userSignUp.message = 'You are logged in';
       userSignUp.token = token;
