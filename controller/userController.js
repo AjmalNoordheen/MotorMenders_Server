@@ -40,7 +40,7 @@ const userSignup = async (req, res) => {
         });
       }
     } else {
-      // const secretPassword = await bcrypt.hash(req.body.password, 12);
+      const secretPassword = await bcrypt.hash(req.body.password, 12);
       const userData = await userSchema.create({
         name: name,
         email: email,
