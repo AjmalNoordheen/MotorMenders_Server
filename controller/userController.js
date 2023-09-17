@@ -23,7 +23,7 @@ const userSignup = async (req, res) => {
       if (!userDetails) {
        
       const  password = await bcrypt.hash(password, 10);
-       const userDEtails = new userSchema({
+       const userDEtails = await userSchema.create({
           name:name,
           email:email,
           password:password,
@@ -31,14 +31,12 @@ const userSignup = async (req, res) => {
           location:location,
           isVerified:true
         });
-        await userDEtails.save();
-
         res.json({status:true})
-        // if(userDEtails){
-        // }else{
-        //   await userSchema.delete({email:userDEtails.email})
-        //   res.json({ status: false});
-        // }
+        if(userDEtails){
+        }else{
+          await userSchema.delete({email:userDEtails.email})
+          res.json({ status: false});
+        }
       } else {
        
          if(userDetails.isgoogleVerified == true){  
@@ -78,12 +76,8 @@ const userLogin = async (req, res) => {
 
   const { email, password } = req.body;
   try {
-    console.log(email,password)
-    const user = await userSchema.findOne({email: email });
-    if(!user.email){
-      console.log('kokko');
-      return res.json({ status: false, message: 'Email not Registered' });
-    }
+    const user = await userSchema.findOne({ email: email });
+
     const passwordsMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordsMatch) {
