@@ -5,62 +5,63 @@ const authToken  = require('../middleWare/auth')
 const env        = require('dotenv').config()
 const nodemailer = require('nodemailer')
 const cloudinary  = require('../config/cloudinary')
-const fs = require('fs')
+const fs = require('fs');
 
 
 // ========User SignUp=========
 
 const userSignup = async (req, res) => {
   try {
-    let { name, email, mobile, password,location } = req.body;
-    
-      const userDetails = await userSchema.findOne({email: email });
-      const ExistPhone  = await userSchema.findOne({phone:mobile})
+    const { name, email, mobile, password, location } = req.body;
+    const userDetails = await userSchema.findOne({ email: email });
 
-      if(ExistPhone){
-        return res.json({status:false,message:'phone number already exists'})
-      }
-      if (!userDetails) {
-       
-      const  password = await bcrypt.hash(password, 10);
-       const userDEtails = await userSchema.create({
-          name:name,
-          email:email,
-          password:password,
-          phone: mobile,
-          location:location,
-          isVerified:true
-        });
-        res.json({status:true})
-        if(userDEtails){
-        }else{
-          await userSchema.delete({email:userDEtails.email})
-          res.json({ status: false});
-        }
+    if (userDetails) {
+      if (!userDetails.isgoogleVerified) {
+        res.json({ status: false, message: 'User already exists' });
       } else {
-       
-         if(userDetails.isgoogleVerified == true){  
-          password = await bcrypt.hash(password, 10);
-          const DBdetails =await userSchema.updateOne({email:userDetails.email},{$set:{
-            name       :name,
-            email      :email,
-            phone      :mobile,
-            password   :password,
-            location   :location,
-            isVerified :true
-          }})
-          console.log(DBdetails);
-          res.json({ status: true, message: 'Registration Success please Login' });   
-      }else{
-        return res.json({ status: false, message: "User already exists" });
+        const hashPassword = await bcrypt.hash(password, 12)
+        const DBdetails = await userSchema.updateOne(
+          { email: userDetails.email },
+          {
+            $set: {
+              name: name,
+              email: email,
+              phone: mobile,
+              password: hashPassword,
+              location: location,
+              isVerified: true,
+            },
+          }
+        );
+        console.log(DBdetails);
+        res.json({
+          status: true,
+          message: 'Registration Success please Login',
+        });
       }
-      }
-    
+    } else {
+      // const secretPassword = await bcrypt.hash(req.body.password, 12);
+      const userData = await userSchema.create({
+        name: name,
+        email: email,
+        phone: mobile,
+        password: password,
+        isVerified: true,
+      });
+      res.json({
+        status: true,
+        message: 'Registration Success please Login',
+        userData:password
+      });
+    }
   } catch (error) {
-    res.json(error)
-    console.log(error);
+    console.error(error);
+    res.json(error);
   }
 };
+
+
+
 
 
 // ==============User Login===========
