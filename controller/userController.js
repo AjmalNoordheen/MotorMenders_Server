@@ -61,7 +61,21 @@ const userSignup = async (req, res) => {
 };
 
 
+// ==========================
 
+const setVerified = async(req,res)=>{
+  try {
+    const {mobile} = req.body
+    const user = await userSchema.findOne({phone:mobile})
+    if(user){
+      res.status(200)
+    }else{
+      res.status(404)
+    }
+  } catch (error) {
+    res.status(500)
+  }
+}
 
 
 // ==============User Login===========
@@ -322,4 +336,4 @@ const checkMobile = async (req,res)=>{
 
 module.exports = { userSignup,userLogin,sendVerifyMail,
                   UpdatedVerification,googleMailDetails,
-                  checkMobile,userProfile,editUserProfile,proSingleDetails};
+                  checkMobile,userProfile,editUserProfile,proSingleDetails,setVerified};
