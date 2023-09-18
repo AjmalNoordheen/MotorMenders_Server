@@ -45,13 +45,13 @@ const userSignup = async (req, res) => {
         name: name,
         email: email,
         phone: mobile,
-        password: password,
+        password: secretPassword,
         isVerified: true,
       });
       res.json({
         status: true,
         message: 'Registration Success please Login',
-        userData:password
+        userData:secretPassword
       });
     }
   } catch (error) {
@@ -81,7 +81,7 @@ const userLogin = async (req, res) => {
 
     const passwordsMatch = await bcrypt.compare(password, user.password);
 
-    if (!user.password == password ) {
+    if (!passwordsMatch) {
       return res.json({ status: false, message: 'Password entered is incorrect' });
     }
 
