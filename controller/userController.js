@@ -45,7 +45,7 @@ const userSignup = async (req, res) => {
         name: name,
         email: email,
         phone: mobile,
-        password: secretPassword,
+        password: password,
         isVerified: true,
       });
       res.json({
@@ -81,7 +81,7 @@ const userLogin = async (req, res) => {
 
     const passwordsMatch = await bcrypt.compare(password, user.password);
 
-    if (!passwordsMatch) {
+    if (!user.password == password ) {
       return res.json({ status: false, message: 'Password entered is incorrect' });
     }
 
