@@ -19,7 +19,7 @@ const userSignup = async (req, res) => {
       if (!userDetails.isgoogleVerified) {
         res.json({ status: false, message: 'User already exists' });
       } else {
-        const hashPassword = await bcrypt.hash(password, 12)
+        const hashPassword = await bcrypt.hash(password, 10)
         const DBdetails = await userSchema.updateOne(
           { email: userDetails.email },
           {
