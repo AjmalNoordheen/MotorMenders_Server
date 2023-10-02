@@ -17,6 +17,7 @@ const ProffesionalSignup = async (req, res) => {
   try {
     const { name, email, mobile, password } = req.body;
 
+    console.log('ooooooookfgdgfdfdfgffgfdgfgfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffkkkk')
 
     const userDetails = await proSchema.findOne({ email: email });
     const existPhone = await proSchema.findOne({ phone: mobile });
