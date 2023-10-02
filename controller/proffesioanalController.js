@@ -15,11 +15,8 @@ const AdminShema = require('../Model/adminSchema');
 
 const ProffesionalSignup = async (req, res) => {
   try {
-    const { name, email, mobile, password, repassword } = req.body;
+    const { name, email, mobile, password } = req.body;
 
-    if (password !== repassword) {
-      return res.json({ status: false, message: "Passwords don't match" });
-    }
 
     const userDetails = await proSchema.findOne({ email: email });
     const existPhone = await proSchema.findOne({ phone: mobile });
@@ -40,12 +37,14 @@ const ProffesionalSignup = async (req, res) => {
 
       await newUser.save();
 
-      const verifyEmail = await userController.sendVerifyMail(
-        newUser.name,
-        newUser.email,
-        newUser._id,
-        1
-      );
+      // const verifyEmail = await userController.sendVerifyMail(
+      //   newUser.name,
+      //   newUser.email,
+      //   newUser._id,
+      //   1
+      // );
+
+      console.log(newUser,'ooooooookkkkk')
 
       if (verifyEmail.result) {
         return res.json({
