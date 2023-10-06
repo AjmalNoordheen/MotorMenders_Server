@@ -16,17 +16,7 @@ const AdminShema = require('../Model/adminSchema');
 const ProffesionalSignup = async (req, res) => {
   try {
     const { name, email, mobile, password } = req.body;
-
-    console.log('ooooooookfgdgfdfdfgffgfdgfgfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffkkkk')
-
-    const userDetails = await proSchema.findOne({ email: email });
-    const existPhone = await proSchema.findOne({ phone: mobile });
-
-    if (existPhone) {
-      return res.json({ status: false, message: "Phone number already exists" });
-    }
-
-    if (!userDetails) {
+    
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = new proSchema({
         name: name,
@@ -38,35 +28,36 @@ const ProffesionalSignup = async (req, res) => {
 
       await newUser.save();
 
-      // const verifyEmail = await userController.sendVerifyMail(
-      //   newUser.name,
-      //   newUser.email,
-      //   newUser._id,
-      //   1
-      // );
-
-      console.log(newUser,'ooooooookkkkk')
-
-      if (verifyEmail.result) {
+      if (newUser) {
         return res.json({
           status: true,
-          message: "Registration Success, Please Verify Your Mail",
+          message: "Registration Success",
         });
       } else {
-        await newUser.remove();
-        return res.json({ status: false, message: "Email Not Sent" });
+        return res.json({ status: false, message: "Registration Failed" });
       }
-    } 
-    else {
-      return res.json({ status: false, message: "User already exists" });
-    }
+   
   } catch (error) {
     console.log(error);
     res.status(500).json({ status: false, message: "An error occurred" });
   }
 };
 
+// ==================checkproffesionalsignUp============
 
+const checkproffesionalsignUp = async(req,res)=>{
+  try {
+    const { email, mobile } = req.body;
+    const userDetails = await proSchema.findOne({$or:[{email:email},{phone:mobile}]})
+       if(userDetails){
+          res.json({status:false})
+         }else{
+          res.json({status:true})
+         }
+  } catch (error) {
+    res.status(500)
+  }
+}
 
 // ==============Proffesional Login===========
 
@@ -545,5 +536,6 @@ module.exports = {
   proMapDetails,
   proProfile,updateEditPro,
   proBookings,updateBookingStatus,
-  getGallery,proGalleryAdd,removeGallery
+  getGallery,proGalleryAdd,removeGallery,
+  checkproffesionalsignUp
 };

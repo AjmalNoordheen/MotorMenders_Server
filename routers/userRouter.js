@@ -11,6 +11,7 @@ const reviewController = require('../controller/reviewController')
 
 
 router.post('/signUp',userController.userSignup)
+router.post('/checkUserSignUp',userController.checkUserSignUp)
 router.post('/login',check.isBlocked,userController.userLogin)
 router.get('/getDetails',check.isBlocked,auth.verifyToken)
 router.get('/blockAuth',check.isBlocked)

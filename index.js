@@ -10,14 +10,7 @@ const socketIo = require("socket.io");
 const chatController = require('./controller/chatController')
 
 const cookieParser = require("cookie-parser");
-// const corsOptions = {
-// 	origin: ["http://localhost:5173","https://www.motormenders.online","https://motormenders.online"], 
-// 	methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
-// 	allowedHeaders: ["Content-Type", "Authorization"],
-// 	optionsSuccessStatus: 204,
-//   };
-  
-// app.use(cors(corsOptions));
+
 
 // Enable CORS with specific options
 const corsOptions = {
