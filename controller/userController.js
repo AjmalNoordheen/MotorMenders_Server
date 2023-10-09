@@ -45,6 +45,7 @@ const userSignup = async (req, res) => {
         email: email,
         phone: mobile,
         password: secretPassword,
+        location: location,
         isVerified: true,
       });
       res.json({
