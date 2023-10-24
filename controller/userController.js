@@ -272,7 +272,7 @@ const checkMobile = async (req, res) => {
     if (user) {
       const token = authToken.generateToken(user);
       const data = {
-        token,
+        token,user
       };
       res.status(200).json({ data });
     } else {
