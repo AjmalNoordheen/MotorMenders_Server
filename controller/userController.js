@@ -268,13 +268,24 @@ const googleMailDetails = async (req, res) => {
 const checkMobile = async (req, res) => {
   try {
     const { newPhone } = req.body;
+    let userSignUp = {
+      Status: false,
+      message: null,
+      token: null,
+      name: null,
+      email: null,
+    };
+  
     const user = await userSchema.findOne({ phone: newPhone });
     if (user) {
       const token = authToken.generateToken(user);
-      const data = {
-        token,user
-      };
-      res.status(200).json({ data });
+      userSignUp.Status = true;
+      userSignUp.message = "You are logged in";
+      userSignUp.token = token;
+      userSignUp.name = user.name;
+      userSignUp.email = user.email;
+
+      return res.json({ userSignUp, user });
     } else {
       res.status(404).json({ errMsg: "User not found" });
     }
