@@ -16,9 +16,8 @@ const cookieParser = require("cookie-parser");
 const corsOptions = {
 	origin: [
 	  "http://localhost:5173",
-	  // "https://www.motormenders.online",
-	  // "https://motormenders.online",
-		"https://motormenders-client.vercel.app",
+	  "https://www.motormenders.online",
+	  "https://motormenders.online",
 	  "https://motormenders-client-9hx8jgk0b-ajmalnoordheen.vercel.app", // Add your Vercel app origin here
 	],
 	methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
