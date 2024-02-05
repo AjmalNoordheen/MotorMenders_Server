@@ -19,6 +19,7 @@ const corsOptions = {
 	  "https://www.motormenders.online",
 	  "https://motormenders.online",
 	  "https://motormenders-client-9hx8jgk0b-ajmalnoordheen.vercel.app", // Add your Vercel app origin here
+	  "https://motormenders-client.vercel.app"
 	],
 	methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
 	allowedHeaders: ["Content-Type", "Authorization"],
